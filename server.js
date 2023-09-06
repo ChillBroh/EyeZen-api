@@ -4,6 +4,7 @@ const dotenv = require("dotenv").config();
 const app = express();
 // const sightedTestRoutes = require("./routes/sightedTestRoutes")
 const sightedTestRoutes = require("./routes/sightedTestRoutes");
+const infantQuizRouter = require("./routes/infantQuiz");
 
 
 app.use(cors());
@@ -25,17 +26,13 @@ const server = app.listen(port, () =>
 
 
 const base = '/api/v1'
-// Infant Eye Care routes
-// const infantQuizRouter = require("./routes/infantQuiz");
+
+// Routes
 app.use(`${base}/sighted`, sightedTestRoutes);
-
-// app.use("/api/infantQuiz", infantQuizRouter);
-
-// sightedTest routes 
-// app.use("/api/start-sighted-test", sightedTestRoutes);
+app.use("/api/infantQuiz", infantQuizRouter);
 
 app.all("*", (req, res, next) => {
-  
+  res.status(404).json({ message: "Not found" });
 });
 
 
