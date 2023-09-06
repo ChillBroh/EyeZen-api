@@ -6,6 +6,7 @@ const { notFound, errorHandler } = require("./Middlewares/errorMiddleware");
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 const treatmentRoutes = require("./routes/treatmentRoutes");
+const doctorRoutes = require("./routes/doctorRoutes");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -22,6 +23,7 @@ connectDB();
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/treatments", treatmentRoutes);
+app.use("/api/doctors", doctorRoutes);
 
 // Error Middleware
 app.use(notFound);
