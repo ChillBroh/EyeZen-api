@@ -1,9 +1,10 @@
 const express = require('express');
-const nearSightedController = require('../controllers/nearSightedController');
+const testNearSighted = require("../controllers/nearSightedController");
+
 const router = express.Router();
 
 
-router.get('/', nearSightedController.generateRandom);
+router.get('/', testNearSighted.generateRandomWord);
 
 
 module.exports = router;
