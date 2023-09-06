@@ -1,21 +1,33 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
-const app = express();
-
-app.use(cors());
-
-//db connection
+const userRoutes = require("./routes/userRoutes");
+const { notFound, errorHandler } = require("./Middlewares/errorMiddleware");
 const connectDB = require("./config/db");
-connectDB();
+
+const app = express();
+const port = process.env.PORT || 5000;
+
+// Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//route
+// Database Connection
+connectDB();
 
-const port = process.env.PORT || 5000;
+// Routes
+app.get("/", (req, res) => {
+  res.send("Server is ready");
+});
 
-//start the server
+app.use("/api/users", userRoutes);
+
+// Error Middleware
+app.use(notFound);
+app.use(errorHandler);
+
+// Start the Server
 const server = app.listen(port, () =>
   console.log(`Server running on port ${port} 🔥`)
 );
