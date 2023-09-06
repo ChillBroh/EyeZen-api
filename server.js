@@ -4,6 +4,7 @@ const dotenv = require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
 const { notFound, errorHandler } = require("./Middlewares/errorMiddleware");
 const connectDB = require("./config/db");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -12,15 +13,12 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Database Connection
 connectDB();
 
 // Routes
-app.get("/", (req, res) => {
-  res.send("Server is ready");
-});
-
 app.use("/api/users", userRoutes);
 
 // Error Middleware
