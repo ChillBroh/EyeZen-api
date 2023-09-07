@@ -1,7 +1,3 @@
-// Your Express route file
-
-const words = require('../models/words'); // Import the array of words
-
 exports.getAllWords = (req, res) => {
   try {
     res.status(200).json({ words }); // Send the array of words to the frontend

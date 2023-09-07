@@ -5,6 +5,7 @@ const app = express();
 // const sightedTestRoutes = require("./routes/sightedTestRoutes")
 const sightedTestRoutes = require("./routes/sightedTestRoutes");
 const infantQuizRouter = require("./routes/infantQuiz");
+const wordRoutes = require("./routes/wordRoutes");
 
 
 app.use(cors());
@@ -30,6 +31,7 @@ const base = '/api/v1'
 // Routes
 app.use(`${base}/sighted`, sightedTestRoutes);
 app.use("/api/infantQuiz", infantQuizRouter);
+app.use("/api/word", wordRoutes);
 
 app.all("*", (req, res, next) => {
   res.status(404).json({ message: "Not found" });
