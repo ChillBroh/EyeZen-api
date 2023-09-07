@@ -54,6 +54,83 @@ const createQuiz = async (req, res) => {
   }
 };
 
+const updateQuiz = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { question, answers } = req.body;
+
+    // Find the question with the matching 'id' and update it
+    const updatedQuiz = await InfantQuiz.findOneAndUpdate(
+      { "questions.id": id },
+      {
+        $set: {
+          "questions.$.question": question,
+          "questions.$.answers": answers,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedQuiz) {
+      return res.status(404).json({ error: "Question not found." });
+    }
+
+    res.status(200).json(updatedQuiz);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the question." });
+  }
+};
+
+const deleteQuiz = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the question with the matching 'id' and remove it
+    const updatedQuiz = await InfantQuiz.findOneAndDelete(
+      { "questions.id": id },
+      {
+        $pull: {
+          questions: { id },
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedQuiz) {
+      return res.status(404).json({ error: "Question not found." });
+    }
+
+    res.status(200).json(updatedQuiz);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the question." });
+  }
+};
+
+const getAllQuizes = async(req, res) => {
+  try {
+    // Retrieve all questions and answers
+    const allQuestions = await InfantQuiz.find({}, 'questions');
+
+    if (!allQuestions) {
+      return res.status(404).json({ error: 'No questions found.' });
+    }
+
+    // Extract just the questions and answers from the result
+    const questionsAndAnswers = allQuestions.map((quiz) => quiz.questions);
+
+    res.status(200).json(questionsAndAnswers);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while fetching questions and answers.' });
+  }
+};
+
 module.exports = {
   createQuiz,
+  updateQuiz,
+  deleteQuiz,
+  getAllQuizes,
 };
