@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 const treatmentRoutes = require("./routes/treatmentRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
+const videoTutorialRoutes = require("./routes/videoTutorialRoutes");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -24,6 +25,7 @@ connectDB();
 app.use("/api/users", userRoutes);
 app.use("/api/treatments", treatmentRoutes);
 app.use("/api/doctors", doctorRoutes);
+app.use("/api/videoTutorial", videoTutorialRoutes);
 
 // Error Middleware
 app.use(notFound);
