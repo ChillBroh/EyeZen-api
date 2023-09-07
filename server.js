@@ -8,6 +8,9 @@ const cookieParser = require("cookie-parser");
 const treatmentRoutes = require("./routes/treatmentRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
 const videoTutorialRoutes = require("./routes/videoTutorialRoutes");
+const sightedTestRoutes = require("./routes/sightedTestRoutes");
+const infantQuizRouter = require("./routes/infantQuiz");
+const wordRoutes = require("./routes/wordRoutes");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -26,6 +29,9 @@ app.use("/api/users", userRoutes);
 app.use("/api/treatments", treatmentRoutes);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/videoTutorial", videoTutorialRoutes);
+app.use("/api/word", wordRoutes)
+
+
 
 // Error Middleware
 app.use(notFound);
@@ -36,9 +42,19 @@ const server = app.listen(port, () =>
   console.log(`Server running on port ${port} 🔥`)
 );
 
-// Infant Eye Care routes
-const infantQuizRouter = require("./routes/infantQuiz");
+
+const base = '/api/v1'
+
+// Routes
+app.use(`${base}/sighted`, sightedTestRoutes);
 app.use("/api/infantQuiz", infantQuizRouter);
+app.use("/api/word", wordRoutes);
+
+app.all("*", (req, res, next) => {
+  res.status(404).json({ message: "Not found" });
+});
+
+
 
 // Infant Eye Care Facts routes
 const infantFactRouter = require("./routes/infantFact");
