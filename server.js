@@ -23,3 +23,7 @@ const server = app.listen(port, () =>
 // Infant Eye Care routes
 const infantQuizRouter = require("./routes/infantQuiz");
 app.use("/api/infantQuiz", infantQuizRouter);
+
+// Infant Eye Care Facts routes
+const infantFactRouter = require("./routes/infantFact");
+app.use("/api/infantFact", infantFactRouter);
