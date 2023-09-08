@@ -29,9 +29,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/treatments", treatmentRoutes);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/videoTutorial", videoTutorialRoutes);
-app.use("/api/word", wordRoutes)
-
-
+app.use("/api/word", wordRoutes);
 
 // Error Middleware
 app.use(notFound);
@@ -42,8 +40,7 @@ const server = app.listen(port, () =>
   console.log(`Server running on port ${port} 🔥`)
 );
 
-
-const base = '/api/v1'
+const base = "/api/v1";
 
 // Routes
 app.use(`${base}/sighted`, sightedTestRoutes);
@@ -54,8 +51,10 @@ app.all("*", (req, res, next) => {
   res.status(404).json({ message: "Not found" });
 });
 
-
-
 // Infant Eye Care Facts routes
 const infantFactRouter = require("./routes/infantFact");
 app.use("/api/infantFact", infantFactRouter);
+
+//quiz
+const mainQuizRoute = require("./routes/mainQuiz/MainQuizRoute");
+app.use("api/mainQuiz", mainQuizRoute);
