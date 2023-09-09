@@ -31,4 +31,45 @@ const getAllQuiz = async (req, res) => {
   }
 };
 
-module.exports = { createQuiz, getAllQuiz };
+const deleteQuiz = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deleteQ = await Quiz.findByIdAndDelete(id);
+    res.status(204).json({
+      status: "Success",
+      data: {
+        old: deleteQ,
+        question: "Null",
+      },
+    });
+  } catch (err) {
+    res.send(400).json({
+      status: "Unsuccess",
+      message: err.message,
+    });
+  }
+};
+
+const updateQuestion = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedQ = await Quiz.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+
+    res.status(200).json({
+      status: "Success",
+      data: {
+        question: updatedQ,
+      },
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.status(404).json({
+      status: "unsuccess",
+      message: err.message,
+    });
+  }
+};
+
+module.exports = { createQuiz, getAllQuiz, deleteQuiz, updateQuestion };
