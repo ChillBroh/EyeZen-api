@@ -10,7 +10,7 @@ const {
 } = require("../controllers/doctorController");
 
 // Create a new doctor
-router.post("/", protect, createDoctor);
+router.post("/", createDoctor);
 
 // Get all doctors
 router.get("/", getAllDoctors);
@@ -19,9 +19,9 @@ router.get("/", getAllDoctors);
 router.get("/:id", getDoctorById);
 
 // Update a doctor by ID
-router.put("/:id", protect, updateDoctor);
+router.put("/:id", updateDoctor);
 
 // Delete a doctor by ID
-router.delete("/:id", protect, deleteDoctor);
+router.delete("/:id", deleteDoctor);
 
 module.exports = router;
