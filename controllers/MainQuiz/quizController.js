@@ -60,7 +60,7 @@ const updateQuestion = async (req, res) => {
     res.status(200).json({
       status: "Success",
       data: {
-        question: updatedQ,
+        updatedQ,
       },
     });
   } catch (err) {
