@@ -54,14 +54,70 @@ const createQuiz = async (req, res) => {
   }
 };
 
+// const updateQuiz = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { question, answers } = req.body;
+
+//     // Find the question with the matching 'id' and update it
+//     const updatedQuiz = await InfantQuiz.findOneAndUpdate(
+//       { "questions.id": id },
+//       {
+//         $set: {
+//           "questions.$.question": question,
+//           "questions.$.answers": answers,
+//         },
+//       },
+//       { new: true }
+//     );
+
+//     if (!updatedQuiz) {
+//       return res.status(404).json({ error: "Question not found." });
+//     }
+
+//     res.status(200).json(updatedQuiz);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ error: "An error occurred while updating the question." });
+//   }
+// };
+
+// const deleteQuiz = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+
+//     // Find the question with the matching 'id' and remove it
+//     const updatedQuiz = await InfantQuiz.findOneAndDelete(
+//       { "questions.id": id },
+//       {
+//         $pull: {
+//           questions: { id },
+//         },
+//       },
+//       { new: true }
+//     );
+
+//     if (!updatedQuiz) {
+//       return res.status(404).json({ error: "Question not found." });
+//     }
+
+//     res.status(200).json(updatedQuiz);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ error: "An error occurred while deleting the question." });
+//   }
+// };
+
 const updateQuiz = async (req, res) => {
   try {
     const { id } = req.params;
     const { question, answers } = req.body;
 
-    // Find the question with the matching 'id' and update it
+    // Find the question with the matching '_id' and update it
     const updatedQuiz = await InfantQuiz.findOneAndUpdate(
-      { "questions.id": id },
+      { "questions._id": id },
       {
         $set: {
           "questions.$.question": question,
@@ -87,12 +143,12 @@ const deleteQuiz = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find the question with the matching 'id' and remove it
+    // Find the question with the matching '_id' and remove it
     const updatedQuiz = await InfantQuiz.findOneAndDelete(
-      { "questions.id": id },
+      { "questions._id": id },
       {
         $pull: {
-          questions: { id },
+          questions: { _id: id },
         },
       },
       { new: true }
@@ -110,13 +166,13 @@ const deleteQuiz = async (req, res) => {
   }
 };
 
-const getAllQuizes = async(req, res) => {
+const getAllQuizes = async (req, res) => {
   try {
     // Retrieve all questions and answers
-    const allQuestions = await InfantQuiz.find({}, 'questions');
+    const allQuestions = await InfantQuiz.find({}, "questions");
 
     if (!allQuestions) {
-      return res.status(404).json({ error: 'No questions found.' });
+      return res.status(404).json({ error: "No questions found." });
     }
 
     // Extract just the questions and answers from the result
@@ -124,7 +180,46 @@ const getAllQuizes = async(req, res) => {
 
     res.status(200).json(questionsAndAnswers);
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred while fetching questions and answers.' });
+    res.status(500).json({
+      error: "An error occurred while fetching questions and answers.",
+    });
+  }
+};
+
+const checkAnswers = async (req, res) => {
+  try {
+    const userAnswers = req.body.userAnswers;
+
+    // Retrieve all questions from your database
+    const quizzes = await InfantQuiz.find({});
+
+    // Initialize the score
+    let score = 0;
+
+    // Iterate through quizzes
+    for (const quiz of quizzes) {
+      for (const question of quiz.questions) {
+        const questionId = question.id;
+        const userAnswerId = userAnswers[questionId];
+
+        // Find the correct answer for this question
+        const correctAnswer = question.answers.find(
+          (answer) => answer.isCorrect
+        );
+
+        // Check if the user's answer ID matches the correct answer's ID
+        if (correctAnswer && correctAnswer.id === userAnswerId) {
+          score += 1;
+        }
+      }
+    }
+
+    res.json({ score });
+  } catch (error) {
+    console.error("Error calculating score:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while calculating the score." });
   }
 };
 
@@ -133,4 +228,5 @@ module.exports = {
   updateQuiz,
   deleteQuiz,
   getAllQuizes,
+  checkAnswers,
 };
