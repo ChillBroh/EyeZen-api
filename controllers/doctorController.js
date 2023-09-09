@@ -18,7 +18,7 @@ const createDoctor = async (req, res) => {
       servicesOffered,
       officeHours,
       acceptedPaymentMethods,
-      profilePicUrl, // Include profilePicUrl in the request body
+      profilePicUrl,
     } = req.body;
 
     const newDoctor = new Doctor({
@@ -36,7 +36,7 @@ const createDoctor = async (req, res) => {
       servicesOffered,
       officeHours,
       acceptedPaymentMethods,
-      profilePicUrl, // Assign profilePicUrl
+      profilePicUrl,
     });
 
     await newDoctor.save();
@@ -59,8 +59,8 @@ const getAllDoctors = async (req, res) => {
 // Get a single doctor by email
 const getDoctorById = async (req, res) => {
   try {
-    const email = req.params.email; // Assuming you pass the email as a parameter
-    const doctor = await Doctor.findOne({ email }); // Search for the doctor by email
+    const email = req.params.email;
+    const doctor = await Doctor.findOne({ email });
 
     if (!doctor) {
       res.status(404).json({ error: "Doctor not found" });
@@ -131,7 +131,7 @@ const updateDoctor = async (req, res) => {
 // Delete a doctor by ID
 const deleteDoctor = async (req, res) => {
   try {
-    const email = req.params.email; // Assuming you pass the email as a parameter
+    const email = req.params.email;
     const doctor = await Doctor.findOne({ email });
 
     if (!doctor) {

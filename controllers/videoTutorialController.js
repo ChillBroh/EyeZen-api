@@ -54,7 +54,6 @@ const updateVideoTutorial = async (req, res) => {
       return res.status(404).json({ error: "Video Tutorial not found" });
     }
 
-    // Define an object with the fields you want to update
     const updatedFields = {
       title: title || videoTutorial.title,
       type: type || videoTutorial.type,

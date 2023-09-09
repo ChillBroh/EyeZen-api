@@ -9,7 +9,7 @@ const {
   deleteTreatment,
 } = require("../controllers/treatmentController");
 
-// Create a new treatment with photo upload
+// Create a new treatment
 router.post("/", createTreatment);
 
 // Get all treatments
