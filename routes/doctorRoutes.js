@@ -16,12 +16,12 @@ router.post("/", createDoctor);
 router.get("/", getAllDoctors);
 
 // Get a single doctor by ID
-router.get("/:id", getDoctorById);
+router.get("/:email", getDoctorById);
 
 // Update a doctor by ID
-router.put("/:id", updateDoctor);
+router.put("/", updateDoctor);
 
 // Delete a doctor by ID
-router.delete("/:id", deleteDoctor);
+router.delete("/:email", deleteDoctor);
 
 module.exports = router;

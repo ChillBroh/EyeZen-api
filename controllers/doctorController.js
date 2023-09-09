@@ -39,8 +39,6 @@ const createDoctor = async (req, res) => {
       profilePicUrl, // Assign profilePicUrl
     });
 
-    console.log(newDoctor);
-
     await newDoctor.save();
     res.status(201).json(newDoctor);
   } catch (error) {
@@ -58,10 +56,12 @@ const getAllDoctors = async (req, res) => {
   }
 };
 
-// Get a single doctor by ID
+// Get a single doctor by email
 const getDoctorById = async (req, res) => {
   try {
-    const doctor = await Doctor.findById(req.params.id);
+    const email = req.params.email; // Assuming you pass the email as a parameter
+    const doctor = await Doctor.findOne({ email }); // Search for the doctor by email
+
     if (!doctor) {
       res.status(404).json({ error: "Doctor not found" });
     } else {
@@ -90,37 +90,33 @@ const updateDoctor = async (req, res) => {
       servicesOffered,
       officeHours,
       acceptedPaymentMethods,
-      profilePicUrl, // Include profilePicUrl in the request body
+      profilePicUrl,
     } = req.body;
 
-    const doctor = await Doctor.findById(req.params.id);
+    // Find the doctor by email
+    const doctor = await Doctor.findOne({ email });
 
     if (!doctor) {
       return res.status(404).json({ error: "Doctor not found" });
     }
 
-    // Define an object with the fields you want to update
-    const updatedFields = {
-      name: name || doctor.name,
-      email: email || doctor.email,
-      mobile: mobile || doctor.mobile,
-      specialization: specialization || doctor.specialization,
-      type: type || doctor.type,
-      town: town || doctor.town,
-      latitude: latitude || doctor.latitude,
-      longitude: longitude || doctor.longitude,
-      about: about || doctor.about,
-      qualifications: qualifications || doctor.qualifications,
-      experience: experience || doctor.experience,
-      servicesOffered: servicesOffered || doctor.servicesOffered,
-      officeHours: officeHours || doctor.officeHours,
-      acceptedPaymentMethods:
-        acceptedPaymentMethods || doctor.acceptedPaymentMethods,
-      profilePicUrl: profilePicUrl || doctor.profilePicUrl, // Assign profilePicUrl
-    };
-
     // Update the doctor object with the new values
-    Object.assign(doctor, updatedFields);
+    doctor.name = name || doctor.name;
+    doctor.email = email || doctor.email;
+    doctor.mobile = mobile || doctor.mobile;
+    doctor.specialization = specialization || doctor.specialization;
+    doctor.type = type || doctor.type;
+    doctor.town = town || doctor.town;
+    doctor.latitude = latitude || doctor.latitude;
+    doctor.longitude = longitude || doctor.longitude;
+    doctor.about = about || doctor.about;
+    doctor.qualifications = qualifications || doctor.qualifications;
+    doctor.experience = experience || doctor.experience;
+    doctor.servicesOffered = servicesOffered || doctor.servicesOffered;
+    doctor.officeHours = officeHours || doctor.officeHours;
+    doctor.acceptedPaymentMethods =
+      acceptedPaymentMethods || doctor.acceptedPaymentMethods;
+    doctor.profilePicUrl = profilePicUrl || doctor.profilePicUrl;
 
     // Save the updated doctor
     await doctor.save();
@@ -135,14 +131,15 @@ const updateDoctor = async (req, res) => {
 // Delete a doctor by ID
 const deleteDoctor = async (req, res) => {
   try {
-    const doctor = await Doctor.findById(req.params.id);
+    const email = req.params.email; // Assuming you pass the email as a parameter
+    const doctor = await Doctor.findOne({ email });
 
     if (!doctor) {
-      res.status(404).json({ error: "Doctor not found" });
-    } else {
-      await doctor.deleteOne();
-      res.status(200).json({ message: "Doctor deleted" });
+      return res.status(404).json({ error: "Doctor not found" });
     }
+
+    await doctor.deleteOne();
+    return res.status(200).json({ message: "Doctor deleted" });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }

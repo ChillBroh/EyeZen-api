@@ -3,12 +3,13 @@ const VideoTutorial = require("../models/videoTutorialModel");
 // Create a new video tutorial
 const createVideoTutorial = async (req, res) => {
   try {
-    const { title, type, description, videoUrl } = req.body;
+    const { title, type, description, thumbnailUrl, videoUrl } = req.body;
 
     const newVideoTutorial = new VideoTutorial({
       title,
       type,
       description,
+      thumbnailUrl,
       videoUrl,
     });
 
@@ -46,7 +47,7 @@ const getVideoTutorialById = async (req, res) => {
 // Update a video tutorial by ID
 const updateVideoTutorial = async (req, res) => {
   try {
-    const { title, type, description, videoUrl } = req.body;
+    const { title, type, description, thumbnailUrl, videoUrl } = req.body;
     const videoTutorial = await VideoTutorial.findById(req.params.id);
 
     if (!videoTutorial) {
@@ -58,6 +59,7 @@ const updateVideoTutorial = async (req, res) => {
       title: title || videoTutorial.title,
       type: type || videoTutorial.type,
       description: description || videoTutorial.description,
+      thumbnailUrl: thumbnailUrl || videoTutorial.thumbnailUrl,
       videoUrl: videoUrl || videoTutorial.videoUrl,
     };
 
