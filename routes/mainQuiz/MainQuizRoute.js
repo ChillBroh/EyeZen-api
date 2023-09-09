@@ -8,4 +8,10 @@ router
   .post(quizController.createQuiz)
   .get(quizController.getAllQuiz);
 
+router
+  .route("/:id")
+  .patch(quizController.updateQuestion)
+  .delete(quizController.deleteQuiz)
+  .get(quizController.updateQuestion);
+
 module.exports = router;
