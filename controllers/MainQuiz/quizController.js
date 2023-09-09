@@ -72,4 +72,30 @@ const updateQuestion = async (req, res) => {
   }
 };
 
-module.exports = { createQuiz, getAllQuiz, deleteQuiz, updateQuestion };
+const getQuestion = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const question = await Quiz.findById(id);
+    res.status(200).json({
+      status: "Success",
+      data: {
+        question,
+      },
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.status(404).json({
+      status: "unsuccess",
+      message: err.message,
+    });
+  }
+};
+
+module.exports = {
+  createQuiz,
+  getAllQuiz,
+  deleteQuiz,
+  updateQuestion,
+  getQuestion,
+};

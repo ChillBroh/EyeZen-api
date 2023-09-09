@@ -11,6 +11,7 @@ router
 router
   .route("/:id")
   .patch(quizController.updateQuestion)
-  .delete(quizController.deleteQuiz);
+  .delete(quizController.deleteQuiz)
+  .get(quizController.updateQuestion);
 
 module.exports = router;
