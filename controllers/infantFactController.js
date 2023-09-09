@@ -1,7 +1,6 @@
 const InfantFacts = require("../models/infantFact");
 
-// Function to generate the 'id' for a new fact
-async function generateFactId() {
+const generateFactId = async () => {
   try {
     // Find the last fact and sort by 'id' in descending order
     const lastFact = await InfantFacts.findOne().sort({ id: -1 });
@@ -12,25 +11,28 @@ async function generateFactId() {
     console.error("Error generating fact ID:", error);
     throw error;
   }
-}
+};
 
 const createFact = async (req, res) => {
   try {
     const { title, description, imageURL } = req.body;
 
     // Validate the incoming data as needed
-    if ((!title, !description || !imageURL)) {
+    if (!title || !description || !imageURL) {
       return res.status(400).json({
         status: "error",
         error: "Invalid data",
       });
     }
 
+    // Convert the incoming description string into an array
+    const descriptionArray = description.split(',').map((item) => item.trim());
+
     // Generate the 'id' for the new fact
     const id = await generateFactId();
 
     // Create a new infant fact
-    const newInfantFact = new InfantFacts({ id, title, description, imageURL });
+    const newInfantFact = new InfantFacts({ id, title, description: descriptionArray, imageURL });
 
     // Save the new fact to the database
     await newInfantFact.save();
@@ -44,7 +46,6 @@ const createFact = async (req, res) => {
   }
 };
 
-// Function to update an existing infant fact
 const updateFact = async (req, res) => {
   try {
     const { id } = req.params; // Get the fact ID from the request parameters
@@ -58,6 +59,9 @@ const updateFact = async (req, res) => {
       });
     }
 
+    // Convert the incoming description string into an array
+    const descriptionArray = description.split(',').map((item) => item.trim());
+
     // Find the infant fact by ID
     const existingFact = await InfantFacts.findOne({ id });
 
@@ -70,7 +74,7 @@ const updateFact = async (req, res) => {
 
     // Update the existing fact with the new data
     existingFact.title = title;
-    existingFact.description = description;
+    existingFact.description = descriptionArray;
     existingFact.imageURL = imageURL;
 
     // Save the updated fact to the database

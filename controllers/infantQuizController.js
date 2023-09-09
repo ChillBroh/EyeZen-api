@@ -110,13 +110,13 @@ const deleteQuiz = async (req, res) => {
   }
 };
 
-const getAllQuizes = async(req, res) => {
+const getAllQuizes = async (req, res) => {
   try {
     // Retrieve all questions and answers
-    const allQuestions = await InfantQuiz.find({}, 'questions');
+    const allQuestions = await InfantQuiz.find({}, "questions");
 
     if (!allQuestions) {
-      return res.status(404).json({ error: 'No questions found.' });
+      return res.status(404).json({ error: "No questions found." });
     }
 
     // Extract just the questions and answers from the result
@@ -124,7 +124,46 @@ const getAllQuizes = async(req, res) => {
 
     res.status(200).json(questionsAndAnswers);
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred while fetching questions and answers.' });
+    res.status(500).json({
+      error: "An error occurred while fetching questions and answers.",
+    });
+  }
+};
+
+const checkAnswers = async (req, res) => {
+  try {
+    const userAnswers = req.body.userAnswers;
+
+    // Retrieve all questions from your database
+    const quizzes = await InfantQuiz.find({});
+
+    // Initialize the score
+    let score = 0;
+
+    // Iterate through quizzes
+    for (const quiz of quizzes) {
+      for (const question of quiz.questions) {
+        const questionId = question.id;
+        const userAnswerId = userAnswers[questionId];
+
+        // Find the correct answer for this question
+        const correctAnswer = question.answers.find(
+          (answer) => answer.isCorrect
+        );
+
+        // Check if the user's answer ID matches the correct answer's ID
+        if (correctAnswer && correctAnswer.id === userAnswerId) {
+          score += 1;
+        }
+      }
+    }
+
+    res.json({ score });
+  } catch (error) {
+    console.error("Error calculating score:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while calculating the score." });
   }
 };
 
@@ -133,4 +172,5 @@ module.exports = {
   updateQuiz,
   deleteQuiz,
   getAllQuizes,
+  checkAnswers,
 };

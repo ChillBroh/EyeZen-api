@@ -9,6 +9,10 @@ router
     .get(infantQuizController.getAllQuizes);
 
 router
+    .route("/check")
+    .post(infantQuizController.checkAnswers);
+
+router
     .route("/:id")
     .put(infantQuizController.updateQuiz)
     .delete(infantQuizController.deleteQuiz);
