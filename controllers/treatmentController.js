@@ -12,8 +12,6 @@ const createTreatment = async (req, res) => {
       photoUrl,
     });
 
-    console.log(newTreatment);
-
     await newTreatment.save();
     res.status(201).json(newTreatment);
   } catch (error) {
