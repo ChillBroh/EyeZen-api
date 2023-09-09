@@ -54,14 +54,70 @@ const createQuiz = async (req, res) => {
   }
 };
 
+// const updateQuiz = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { question, answers } = req.body;
+
+//     // Find the question with the matching 'id' and update it
+//     const updatedQuiz = await InfantQuiz.findOneAndUpdate(
+//       { "questions.id": id },
+//       {
+//         $set: {
+//           "questions.$.question": question,
+//           "questions.$.answers": answers,
+//         },
+//       },
+//       { new: true }
+//     );
+
+//     if (!updatedQuiz) {
+//       return res.status(404).json({ error: "Question not found." });
+//     }
+
+//     res.status(200).json(updatedQuiz);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ error: "An error occurred while updating the question." });
+//   }
+// };
+
+// const deleteQuiz = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+
+//     // Find the question with the matching 'id' and remove it
+//     const updatedQuiz = await InfantQuiz.findOneAndDelete(
+//       { "questions.id": id },
+//       {
+//         $pull: {
+//           questions: { id },
+//         },
+//       },
+//       { new: true }
+//     );
+
+//     if (!updatedQuiz) {
+//       return res.status(404).json({ error: "Question not found." });
+//     }
+
+//     res.status(200).json(updatedQuiz);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ error: "An error occurred while deleting the question." });
+//   }
+// };
+
 const updateQuiz = async (req, res) => {
   try {
     const { id } = req.params;
     const { question, answers } = req.body;
 
-    // Find the question with the matching 'id' and update it
+    // Find the question with the matching '_id' and update it
     const updatedQuiz = await InfantQuiz.findOneAndUpdate(
-      { "questions.id": id },
+      { "questions._id": id },
       {
         $set: {
           "questions.$.question": question,
@@ -87,12 +143,12 @@ const deleteQuiz = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find the question with the matching 'id' and remove it
+    // Find the question with the matching '_id' and remove it
     const updatedQuiz = await InfantQuiz.findOneAndDelete(
-      { "questions.id": id },
+      { "questions._id": id },
       {
         $pull: {
-          questions: { id },
+          questions: { _id: id },
         },
       },
       { new: true }
