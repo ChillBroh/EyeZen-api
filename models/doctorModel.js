@@ -18,6 +18,14 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      required: true,
+    },
+    town: {
+      type: String,
+      required: true,
+    },
     latitude: {
       type: String,
       required: true,
@@ -48,6 +56,10 @@ const doctorSchema = new mongoose.Schema(
     },
     acceptedPaymentMethods: {
       type: [String], // An array of accepted payment methods
+      required: true,
+    },
+    profilePicUrl: {
+      type: String,
       required: true,
     },
   },

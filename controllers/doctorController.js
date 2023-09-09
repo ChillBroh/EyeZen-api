@@ -8,6 +8,8 @@ const createDoctor = async (req, res) => {
       email,
       mobile,
       specialization,
+      type,
+      town,
       latitude,
       longitude,
       about,
@@ -16,6 +18,7 @@ const createDoctor = async (req, res) => {
       servicesOffered,
       officeHours,
       acceptedPaymentMethods,
+      profilePicUrl, // Include profilePicUrl in the request body
     } = req.body;
 
     const newDoctor = new Doctor({
@@ -23,6 +26,8 @@ const createDoctor = async (req, res) => {
       email,
       mobile,
       specialization,
+      type,
+      town,
       latitude,
       longitude,
       about,
@@ -31,7 +36,10 @@ const createDoctor = async (req, res) => {
       servicesOffered,
       officeHours,
       acceptedPaymentMethods,
+      profilePicUrl, // Assign profilePicUrl
     });
+
+    console.log(newDoctor);
 
     await newDoctor.save();
     res.status(201).json(newDoctor);
@@ -72,6 +80,8 @@ const updateDoctor = async (req, res) => {
       email,
       mobile,
       specialization,
+      type,
+      town,
       latitude,
       longitude,
       about,
@@ -80,7 +90,9 @@ const updateDoctor = async (req, res) => {
       servicesOffered,
       officeHours,
       acceptedPaymentMethods,
+      profilePicUrl, // Include profilePicUrl in the request body
     } = req.body;
+
     const doctor = await Doctor.findById(req.params.id);
 
     if (!doctor) {
@@ -93,6 +105,8 @@ const updateDoctor = async (req, res) => {
       email: email || doctor.email,
       mobile: mobile || doctor.mobile,
       specialization: specialization || doctor.specialization,
+      type: type || doctor.type,
+      town: town || doctor.town,
       latitude: latitude || doctor.latitude,
       longitude: longitude || doctor.longitude,
       about: about || doctor.about,
@@ -102,6 +116,7 @@ const updateDoctor = async (req, res) => {
       officeHours: officeHours || doctor.officeHours,
       acceptedPaymentMethods:
         acceptedPaymentMethods || doctor.acceptedPaymentMethods,
+      profilePicUrl: profilePicUrl || doctor.profilePicUrl, // Assign profilePicUrl
     };
 
     // Update the doctor object with the new values
