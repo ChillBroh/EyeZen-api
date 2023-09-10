@@ -3,12 +3,13 @@ const VideoTutorial = require("../models/videoTutorialModel");
 // Create a new video tutorial
 const createVideoTutorial = async (req, res) => {
   try {
-    const { title, type, description, videoUrl } = req.body;
+    const { title, type, description, thumbnailUrl, videoUrl } = req.body;
 
     const newVideoTutorial = new VideoTutorial({
       title,
       type,
       description,
+      thumbnailUrl,
       videoUrl,
     });
 
@@ -46,18 +47,18 @@ const getVideoTutorialById = async (req, res) => {
 // Update a video tutorial by ID
 const updateVideoTutorial = async (req, res) => {
   try {
-    const { title, type, description, videoUrl } = req.body;
+    const { title, type, description, thumbnailUrl, videoUrl } = req.body;
     const videoTutorial = await VideoTutorial.findById(req.params.id);
 
     if (!videoTutorial) {
       return res.status(404).json({ error: "Video Tutorial not found" });
     }
 
-    // Define an object with the fields you want to update
     const updatedFields = {
       title: title || videoTutorial.title,
       type: type || videoTutorial.type,
       description: description || videoTutorial.description,
+      thumbnailUrl: thumbnailUrl || videoTutorial.thumbnailUrl,
       videoUrl: videoUrl || videoTutorial.videoUrl,
     };
 

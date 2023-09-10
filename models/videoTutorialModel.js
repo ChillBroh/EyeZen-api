@@ -14,8 +14,12 @@ const videoTutorialSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    thumbnailUrl: {
+      type: String,
+      required: true,
+    },
     videoUrl: {
-      type: String, // Change photoUrl to videoUrl
+      type: String,
       required: true,
     },
   },

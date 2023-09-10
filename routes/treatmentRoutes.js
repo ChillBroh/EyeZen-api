@@ -9,8 +9,8 @@ const {
   deleteTreatment,
 } = require("../controllers/treatmentController");
 
-// Create a new treatment with photo upload
-router.post("/", protect, createTreatment);
+// Create a new treatment
+router.post("/", createTreatment);
 
 // Get all treatments
 router.get("/", getAllTreatments);
@@ -19,9 +19,9 @@ router.get("/", getAllTreatments);
 router.get("/:id", getTreatmentById);
 
 // Update a treatment by ID
-router.put("/:id", protect, updateTreatment);
+router.put("/:id", updateTreatment);
 
 // Delete a treatment by ID
-router.delete("/:id", protect, deleteTreatment);
+router.delete("/:id", deleteTreatment);
 
 module.exports = router;

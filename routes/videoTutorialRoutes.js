@@ -10,7 +10,7 @@ const {
 } = require("../controllers/videoTutorialController");
 
 // Create a new video tutorial
-router.post("/", protect, createVideoTutorial);
+router.post("/", createVideoTutorial);
 
 // Get all video tutorials
 router.get("/", getAllVideoTutorials);
@@ -19,9 +19,9 @@ router.get("/", getAllVideoTutorials);
 router.get("/:id", getVideoTutorialById);
 
 // Update a video tutorial by ID
-router.put("/:id", protect, updateVideoTutorial);
+router.put("/:id", updateVideoTutorial);
 
 // Delete a video tutorial by ID
-router.delete("/:id", protect, deleteVideoTutorial);
+router.delete("/:id", deleteVideoTutorial);
 
 module.exports = router;

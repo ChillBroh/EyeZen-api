@@ -53,7 +53,6 @@ const updateTreatment = async (req, res) => {
       return res.status(404).json({ error: "Treatment not found" });
     }
 
-    // Define an object with the fields you want to update
     const updatedFields = {
       title: title || treatment.title,
       type: type || treatment.type,
