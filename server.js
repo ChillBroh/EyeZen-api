@@ -26,6 +26,7 @@ const infantQuizRouter = require("./routes/infantQuiz");
 const wordRoutes = require("./routes/wordRoutes");
 const infantFactRouter = require("./routes/infantFact");
 const mainQuizRoute = require("./routes/mainQuiz/MainQuizRoute");
+const visionGame = require("./routes/game/visionGameRoute");
 
 const base = "/api/v1";
 
@@ -45,8 +46,9 @@ app.use("/api/word", wordRoutes);
 app.use("/api/infantFact", infantFactRouter);
 
 // Quiz
-
 app.use(`/api/mainQuiz`, mainQuizRoute);
+//game
+app.use("/api/game", visionGame);
 
 // Error Middleware
 const { notFound, errorHandler } = require("./Middlewares/errorMiddleware");
