@@ -7,9 +7,9 @@ const infantFactSchema = new Schema({
     unique: true,
     required: true,
   },
-  title :{
-    type : String,
-    required: true
+  title: {
+    type: String,
+    required: true,
   },
   description: {
     type: [String],
@@ -17,7 +17,6 @@ const infantFactSchema = new Schema({
   },
   imageURL: {
     type: String,
-    required: true,
   },
 });
 
