@@ -30,7 +30,6 @@ const visionGame = require("./routes/game/visionGameRoute");
 
 const base = "/api/v1";
 
-app.use("/api/users", userRoutes);
 app.use("/api/treatments", treatmentRoutes);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/videoTutorial", videoTutorialRoutes);
@@ -49,6 +48,9 @@ app.use("/api/infantFact", infantFactRouter);
 app.use(`/api/mainQuiz`, mainQuizRoute);
 //game
 app.use("/api/game", visionGame);
+
+//user
+app.use("/api/auth", require("./routes/authRoutes"));
 
 // Error Middleware
 const { notFound, errorHandler } = require("./Middlewares/errorMiddleware");
