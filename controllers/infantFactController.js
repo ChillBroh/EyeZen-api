@@ -18,7 +18,7 @@ const createFact = async (req, res) => {
     const { title, description, imageURL } = req.body;
 
     // Validate the incoming data as needed
-    if (!title || !description || !imageURL) {
+    if (!title || !description) {
       return res.status(400).json({
         status: "error",
         error: "Invalid data",
